@@ -1,0 +1,254 @@
+/* src/style.css */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+#search-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#search-input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  width: 300px;
+}
+
+#search-form button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+#search-form button:hover {
+  background-color: #4cae4c;
+}
+
+main {
+  display: grid; /* Changed to grid for more flexible layout */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 20px;
+}
+
+#movie-list-section, #movie-details-section, #favorites-section {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* Specific styling for sections if needed */
+#movie-list-section {
+  /* Potentially make this span more columns if using grid layout for main */
+   grid-column: span 2; /* Example: movie list takes more space */
+}
+
+
+#movie-details-section {
+   /* Adjust as needed */
+}
+
+#favorites-section {
+  /* Adjust as needed, maybe make it full width if it's the last one */
+  grid-column: 1 / -1; /* Span full width if it's the last item in a row */
+  margin-top: 20px; /* Add some space above favorites */
+}
+
+
+#movie-list, #favorites-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Smaller cards */
+  gap: 15px;
+}
+
+.movie-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.movie-card img {
+  max-width: 100%;
+  height: 250px; /* Fixed height for consistency */
+  object-fit: cover; /* Ensure image covers the area */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.movie-card h3 {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  height: 3em; /* Approx 2 lines of text */
+  overflow: hidden;
+}
+
+#movie-details h2 {
+  margin-top: 0;
+}
+
+/* Buttons */
+.add-favorite-btn, .remove-favorite-btn {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%; /* Make buttons take full width of card padding */
+  box-sizing: border-box;
+}
+
+.add-favorite-btn {
+  background-color: #007bff; /* Blue for add */
+}
+
+.add-favorite-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.add-favorite-btn:disabled {
+  background-color: #6c757d; /* Gray when disabled */
+  cursor: not-allowed;
+}
+
+.remove-favorite-btn {
+  background-color: #dc3545; /* Red for remove */
+}
+
+.remove-favorite-btn:hover {
+  background-color: #c82333;
+}
+
+#favorites-list .movie-card {
+  /* Slightly different styling for favorite cards if needed */
+}
+
+#favorites-section h2, #movie-list-section h2, #movie-details-section h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Small Screens (e.g., tablets) */
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr; /* Stack sections vertically */
+  }
+
+  #movie-list-section,
+  #movie-details-section,
+  #favorites-section {
+    grid-column: auto; /* Reset column spans */
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  #app > header > h1 { /* More specific selector for header h1 if needed */
+      font-size: 1.5em; /* Adjust header font size */
+  }
+
+  h2 { /* General h2 reduction */
+      font-size: 1.3em;
+  }
+
+  #movie-list, #favorites-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Slightly smaller cards */
+  }
+
+  .movie-card img {
+    height: 220px; /* Adjust image height slightly */
+  }
+}
+
+/* Very Small Screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+  #search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #search-input {
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Increased margin for better separation */
+    box-sizing: border-box;
+  }
+
+  #search-form button {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  #app > header > h1 {
+      font-size: 1.3em;
+  }
+   h2 {
+      font-size: 1.1em;
+  }
+
+  .movie-card {
+    padding: 8px; /* Reduce padding on cards */
+  }
+
+  .movie-card img {
+    height: 200px; /* Further reduce image height */
+    margin-bottom: 8px;
+  }
+
+  .movie-card h3 {
+    font-size: 0.85rem;
+    height: 2.8em; /* Adjust height for potentially smaller font */
+  }
+
+  .add-favorite-btn, .remove-favorite-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  #movie-list-section,
+  #movie-details-section,
+  #favorites-section {
+    padding: 10px; /* Reduce section padding */
+  }
+}
