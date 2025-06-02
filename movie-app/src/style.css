@@ -46,6 +46,7 @@ header h1 {
   border: none;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s ease-out; /* Added transform for active state */
 }
 
 #search-form button:hover {
@@ -53,8 +54,8 @@ header h1 {
 }
 
 main {
-  display: grid; /* Changed to grid for more flexible layout */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
@@ -65,27 +66,46 @@ main {
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* Specific styling for sections if needed */
 #movie-list-section {
-  /* Potentially make this span more columns if using grid layout for main */
-   grid-column: span 2; /* Example: movie list takes more space */
+   grid-column: span 2;
 }
 
+/* --- Animations and Transitions --- */
+@keyframes fadeInScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 #movie-details-section {
-   /* Adjust as needed */
+  /* Initial state set by JS, transition applied here */
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 #favorites-section {
-  /* Adjust as needed, maybe make it full width if it's the last one */
-  grid-column: 1 / -1; /* Span full width if it's the last item in a row */
-  margin-top: 20px; /* Add some space above favorites */
+  grid-column: 1 / -1;
+  margin-top: 20px;
 }
-
 
 #movie-list, #favorites-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Smaller cards */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 15px;
 }
 
@@ -95,18 +115,22 @@ main {
   border-radius: 5px;
   padding: 10px;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  /* Apply load-in animation - this will run each time a card is added if not handled carefully */
+  /* A class-based approach triggered by JS is often better for "on load" */
+  /* For now, let's assume this is for initial appearance */
+   animation: fadeInScaleUp 0.5s ease-out forwards;
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
 
 .movie-card img {
   max-width: 100%;
-  height: 250px; /* Fixed height for consistency */
-  object-fit: cover; /* Ensure image covers the area */
+  height: 250px;
+  object-fit: cover;
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -114,7 +138,7 @@ main {
 .movie-card h3 {
   font-size: 0.9rem;
   margin-bottom: 10px;
-  height: 3em; /* Approx 2 lines of text */
+  height: 3em;
   overflow: hidden;
 }
 
@@ -122,7 +146,6 @@ main {
   margin-top: 0;
 }
 
-/* Buttons */
 .add-favorite-btn, .remove-favorite-btn {
   padding: 8px 12px;
   font-size: 0.8rem;
@@ -130,13 +153,19 @@ main {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  width: 100%; /* Make buttons take full width of card padding */
+  transition: background-color 0.2s, transform 0.1s ease-out;
+  width: 100%;
   box-sizing: border-box;
 }
 
+.add-favorite-btn:active,
+.remove-favorite-btn:active,
+#search-form button:active {
+  transform: scale(0.98);
+}
+
 .add-favorite-btn {
-  background-color: #007bff; /* Blue for add */
+  background-color: #007bff;
 }
 
 .add-favorite-btn:hover:not(:disabled) {
@@ -144,20 +173,16 @@ main {
 }
 
 .add-favorite-btn:disabled {
-  background-color: #6c757d; /* Gray when disabled */
+  background-color: #6c757d;
   cursor: not-allowed;
 }
 
 .remove-favorite-btn {
-  background-color: #dc3545; /* Red for remove */
+  background-color: #dc3545;
 }
 
 .remove-favorite-btn:hover {
   background-color: #c82333;
-}
-
-#favorites-list .movie-card {
-  /* Slightly different styling for favorite cards if needed */
 }
 
 #favorites-section h2, #movie-list-section h2, #movie-details-section h2 {
@@ -167,41 +192,38 @@ main {
 }
 
 /* --- Media Queries for Responsiveness --- */
-
-/* Small Screens (e.g., tablets) */
 @media (max-width: 768px) {
   main {
-    grid-template-columns: 1fr; /* Stack sections vertically */
+    grid-template-columns: 1fr;
   }
 
   #movie-list-section,
   #movie-details-section,
   #favorites-section {
-    grid-column: auto; /* Reset column spans */
+    grid-column: auto;
   }
 
   header h1 {
     font-size: 1.8rem;
   }
 
-  #app > header > h1 { /* More specific selector for header h1 if needed */
-      font-size: 1.5em; /* Adjust header font size */
+  #app > header > h1 {
+      font-size: 1.5em;
   }
 
-  h2 { /* General h2 reduction */
+  h2 {
       font-size: 1.3em;
   }
 
   #movie-list, #favorites-list {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Slightly smaller cards */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 
   .movie-card img {
-    height: 220px; /* Adjust image height slightly */
+    height: 220px;
   }
 }
 
-/* Very Small Screens (e.g., mobile phones) */
 @media (max-width: 480px) {
   #search-form {
     flex-direction: column;
@@ -211,7 +233,7 @@ main {
   #search-input {
     width: 100%;
     border-radius: 4px;
-    margin-bottom: 10px; /* Increased margin for better separation */
+    margin-bottom: 10px;
     box-sizing: border-box;
   }
 
@@ -228,17 +250,18 @@ main {
   }
 
   .movie-card {
-    padding: 8px; /* Reduce padding on cards */
+    padding: 8px;
+    animation: fadeInScaleUp 0.3s ease-out forwards; /* Faster animation on mobile */
   }
 
   .movie-card img {
-    height: 200px; /* Further reduce image height */
+    height: 200px;
     margin-bottom: 8px;
   }
 
   .movie-card h3 {
     font-size: 0.85rem;
-    height: 2.8em; /* Adjust height for potentially smaller font */
+    height: 2.8em;
   }
 
   .add-favorite-btn, .remove-favorite-btn {
@@ -249,6 +272,6 @@ main {
   #movie-list-section,
   #movie-details-section,
   #favorites-section {
-    padding: 10px; /* Reduce section padding */
+    padding: 10px;
   }
 }
